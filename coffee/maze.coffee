@@ -100,9 +100,10 @@ class Maze
     # no point rendering if nothing has changed!
     if @camera.x isnt @cameraPosition.x or @camera.y isnt @cameraPosition.y or @camera.angle isnt @cameraPosition.angle
       # draw the sky...
-      gradient = @context.createLinearGradient 0, 0, 0, @canvas.height / 2
-      gradient.addColorStop 0, '#6698FF'
-      gradient.addColorStop 1, '#2554C7'
+      gradient = @context.createLinearGradient 0, 0, 0, @canvas.height / 1.5
+      gradient.addColorStop 0, '#0041C2'
+      gradient.addColorStop 0.5, '#2B60DE'
+      gradient.addColorStop 1, '#6698FF'
       @context.fillStyle = gradient
       @context.fillRect 0, 0, @canvas.width, @canvas.height / 2
 

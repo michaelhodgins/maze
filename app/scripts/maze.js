@@ -137,9 +137,10 @@ Maze = (function() {
   Maze.prototype.draw = function() {
     var gradient;
     if (this.camera.x !== this.cameraPosition.x || this.camera.y !== this.cameraPosition.y || this.camera.angle !== this.cameraPosition.angle) {
-      gradient = this.context.createLinearGradient(0, 0, 0, this.canvas.height / 2);
-      gradient.addColorStop(0, '#6698FF');
-      gradient.addColorStop(1, '#2554C7');
+      gradient = this.context.createLinearGradient(0, 0, 0, this.canvas.height / 1.5);
+      gradient.addColorStop(0, '#0041C2');
+      gradient.addColorStop(0.5, '#2B60DE');
+      gradient.addColorStop(1, '#6698FF');
       this.context.fillStyle = gradient;
       this.context.fillRect(0, 0, this.canvas.width, this.canvas.height / 2);
       gradient = this.context.createLinearGradient(0, 0, 0, this.canvas.height);

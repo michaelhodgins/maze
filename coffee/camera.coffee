@@ -21,7 +21,7 @@ class Camera
       context.fillRect x, y, 1, sliceHeight
 
       context.fillStyle = '#000'
-      context.globalAlpha = distance / @maxDistance / 1.6
+      context.globalAlpha = distance / @maxDistance / 1.1
       context.fillRect x, y, 1, sliceHeight
       context.globalAlpha = prevAlpha
 

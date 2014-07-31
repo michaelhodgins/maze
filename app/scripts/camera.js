@@ -26,7 +26,7 @@ Camera = (function() {
       context.fillStyle = ray.wall === 1 ? '#C79926' : '#ADA96E';
       context.fillRect(x, y, 1, sliceHeight);
       context.fillStyle = '#000';
-      context.globalAlpha = distance / this.maxDistance / 1.6;
+      context.globalAlpha = distance / this.maxDistance / 1.1;
       context.fillRect(x, y, 1, sliceHeight);
       context.globalAlpha = prevAlpha;
       _results.push(angle += angleIncrement);
