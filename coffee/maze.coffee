@@ -5,7 +5,11 @@ class Maze
     @height = @canvas.height
 
     @desiredStep = 1000 / @fps
-    @debug = false #set to true to see debug information about the game on the screen
+
+    @cameraPosition =
+      x: false
+      y: false
+      angle: false
 
     @keyPressed = #which keys are pressed
       shift: false
@@ -18,7 +22,6 @@ class Maze
         @keyPressed[keyName] = event.type is 'keydown'
         event.preventDefault()
       @keyPressed.shift = event.shiftKey
-
 
   setMap: (@map) ->
     @camera?.map = @map
@@ -94,22 +97,29 @@ class Maze
   Draw each entity.
   ###
   draw: ->
-    # draw the sky...
-    gradient = @context.createLinearGradient 0, 0, 0, @canvas.height / 2
-    gradient.addColorStop 0, '#6698FF'
-    gradient.addColorStop 1, '#2554C7'
-    @context.fillStyle = gradient
-    @context.fillRect 0, 0, @canvas.width, @canvas.height / 2
+    # no point rendering if nothing has changed!
+    if @camera.x isnt @cameraPosition.x or @camera.y isnt @cameraPosition.y or @camera.angle isnt @cameraPosition.angle
+      # draw the sky...
+      gradient = @context.createLinearGradient 0, 0, 0, @canvas.height / 2
+      gradient.addColorStop 0, '#6698FF'
+      gradient.addColorStop 1, '#2554C7'
+      @context.fillStyle = gradient
+      @context.fillRect 0, 0, @canvas.width, @canvas.height / 2
 
-    #... and the ground
-    gradient = @context.createLinearGradient 0, 0, 0, @canvas.height
-    gradient.addColorStop 0, '#254117'
-    gradient.addColorStop 1, '#4AA02C'
-    @context.fillStyle = gradient
-    @context.fillRect 0, @canvas.height / 2, @canvas.width, @canvas.height
+      #... and the ground
+      gradient = @context.createLinearGradient 0, 0, 0, @canvas.height
+      gradient.addColorStop 0, '#254117'
+      gradient.addColorStop 1, '#4AA02C'
+      @context.fillStyle = gradient
+      @context.fillRect 0, @canvas.height / 2, @canvas.width, @canvas.height
 
-    # draw the map
-    @camera.project @canvas, @context
+      # draw the map
+      @camera.project @canvas, @context
+
+    # remember the camera position for next time
+    @cameraPosition.x = @camera.x
+    @cameraPosition.y = @camera.y
+    @cameraPosition.angle = @camera.angle
 
   ###
   Constants for some keys we're interesting in

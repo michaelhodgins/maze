@@ -9,7 +9,11 @@ Maze = (function() {
     this.width = this.canvas.width;
     this.height = this.canvas.height;
     this.desiredStep = 1000 / this.fps;
-    this.debug = false;
+    this.cameraPosition = {
+      x: false,
+      y: false,
+      angle: false
+    };
     this.keyPressed = {
       shift: false
     };
@@ -132,17 +136,22 @@ Maze = (function() {
 
   Maze.prototype.draw = function() {
     var gradient;
-    gradient = this.context.createLinearGradient(0, 0, 0, this.canvas.height / 2);
-    gradient.addColorStop(0, '#6698FF');
-    gradient.addColorStop(1, '#2554C7');
-    this.context.fillStyle = gradient;
-    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height / 2);
-    gradient = this.context.createLinearGradient(0, 0, 0, this.canvas.height);
-    gradient.addColorStop(0, '#254117');
-    gradient.addColorStop(1, '#4AA02C');
-    this.context.fillStyle = gradient;
-    this.context.fillRect(0, this.canvas.height / 2, this.canvas.width, this.canvas.height);
-    return this.camera.project(this.canvas, this.context);
+    if (this.camera.x !== this.cameraPosition.x || this.camera.y !== this.cameraPosition.y || this.camera.angle !== this.cameraPosition.angle) {
+      gradient = this.context.createLinearGradient(0, 0, 0, this.canvas.height / 2);
+      gradient.addColorStop(0, '#6698FF');
+      gradient.addColorStop(1, '#2554C7');
+      this.context.fillStyle = gradient;
+      this.context.fillRect(0, 0, this.canvas.width, this.canvas.height / 2);
+      gradient = this.context.createLinearGradient(0, 0, 0, this.canvas.height);
+      gradient.addColorStop(0, '#254117');
+      gradient.addColorStop(1, '#4AA02C');
+      this.context.fillStyle = gradient;
+      this.context.fillRect(0, this.canvas.height / 2, this.canvas.width, this.canvas.height);
+      this.camera.project(this.canvas, this.context);
+    }
+    this.cameraPosition.x = this.camera.x;
+    this.cameraPosition.y = this.camera.y;
+    return this.cameraPosition.angle = this.camera.angle;
   };
 
 

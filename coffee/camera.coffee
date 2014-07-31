@@ -17,7 +17,6 @@ class Camera
       sliceHeight = @map.wallHeight / distance * distanceFromScreen
       y = canvas.height / 2 - sliceHeight / 2
 
-
       context.fillStyle = if ray.wall is 1 then '#C79926' else '#ADA96E'
       context.fillRect x, y, 1, sliceHeight
 
@@ -39,7 +38,7 @@ class Camera
       wall = @map.get x, y
       if wall
         return {
-          length,
+          length
           wall
         }
 
