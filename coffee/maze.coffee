@@ -7,6 +7,19 @@ class Maze
     @desiredStep = 1000 / @fps
     @debug = false #set to true to see debug information about the game on the screen
 
+    @keyPressed = #which keys are pressed
+      shift: false
+
+    #monitor the keys that are pressed.
+    $(@canvas).on 'keydown keyup', (event) =>
+      keyName = Maze.keys[event.which]
+
+      if keyName
+        @keyPressed[keyName] = event.type is 'keydown'
+        event.preventDefault()
+      @keyPressed.shift = event.shiftKey
+
+
   setMap: (@map) ->
 
   setCamera: (@camera) ->
@@ -59,23 +72,51 @@ class Maze
   Update all the entities once.
   ###
   update: (steps) ->
+    if @keyPressed.up
+      @camera.move 10
+    else if @keyPressed.down
+      @camera.move -10
+
+    if @keyPressed.left
+      if @keyPressed.shift
+        @camera.strife -10
+      else
+        @camera.angle -= 1
+    else if @keyPressed.right
+      if @keyPressed.shift
+        @camera.strife 10
+      else
+        @camera.angle += 1
 
   ###
   Draw each entity.
   ###
   draw: ->
-    # draw the sky and ground
+    # draw the sky...
     gradient = @context.createLinearGradient 0, 0, 0, @canvas.height / 2
     gradient.addColorStop 0, '#6698FF'
     gradient.addColorStop 1, '#2554C7'
     @context.fillStyle = gradient
     @context.fillRect 0, 0, @canvas.width, @canvas.height / 2
 
-
+    #... and the ground
     gradient = @context.createLinearGradient 0, 0, 0, @canvas.height
     gradient.addColorStop 0, '#254117'
     gradient.addColorStop 1, '#4AA02C'
     @context.fillStyle = gradient
     @context.fillRect 0, @canvas.height / 2, @canvas.width, @canvas.height
+
     # draw the map
     @camera.project @map, @canvas, @context
+
+  ###
+  Constants for some keys we're interesting in
+  ###
+  @keys:
+    32: "space"
+    37: "left"
+    38: "up"
+    39: "right"
+    40: "down"
+    80: "P"
+    83: "S"

@@ -3,7 +3,7 @@ var Camera;
 
 Camera = (function() {
   function Camera(x, y, angle) {
-    this.x = x != null ? x : 0;
+    this.x = x != null ? x : 100;
     this.y = y != null ? y : 600;
     this.angle = angle != null ? angle : 0;
     this.fov = 60;
@@ -11,21 +11,23 @@ Camera = (function() {
   }
 
   Camera.prototype.project = function(map, canvas, context) {
-    var angle, angleIncrement, distance, distanceFromScreen, sliceHeight, x, y, _i, _ref, _results;
+    var angle, angleIncrement, distance, distanceFromScreen, prevAlpha, sliceHeight, x, y, _i, _ref, _results;
     angle = this.angle - (this.fov / 2);
     angleIncrement = this.fov / canvas.width;
     distanceFromScreen = canvas.width / 2 / Math.tan(this.fov / 2 * DEG);
+    prevAlpha = context.globalAlpha;
     _results = [];
     for (x = _i = 0, _ref = canvas.width; 0 <= _ref ? _i < _ref : _i > _ref; x = 0 <= _ref ? ++_i : --_i) {
       distance = this.castRay(map, angle);
+      distance *= Math.cos((this.angle - angle) * DEG);
       sliceHeight = map.wallHeight / distance * distanceFromScreen;
       y = canvas.height / 2 - sliceHeight / 2;
-      context.clearRect(x, y, 1, sliceHeight);
       context.fillStyle = '#C79926';
       context.fillRect(x, y, 1, sliceHeight);
       context.fillStyle = '#000';
       context.globalAlpha = distance / this.maxDistance / 1.6;
       context.fillRect(x, y, 1, sliceHeight);
+      context.globalAlpha = prevAlpha;
       _results.push(angle += angleIncrement);
     }
     return _results;
@@ -45,6 +47,16 @@ Camera = (function() {
         return length;
       }
     }
+  };
+
+  Camera.prototype.move = function(distance) {
+    this.x += Math.cos(this.angle * DEG) * distance;
+    return this.y += Math.sin(this.angle * DEG) * distance;
+  };
+
+  Camera.prototype.strife = function(distance) {
+    this.x += Math.cos((this.angle + 90) * DEG) * distance;
+    return this.y += Math.sin((this.angle + 90) * DEG) * distance;
   };
 
   return Camera;

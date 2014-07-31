@@ -10,6 +10,20 @@ Maze = (function() {
     this.height = this.canvas.height;
     this.desiredStep = 1000 / this.fps;
     this.debug = false;
+    this.keyPressed = {
+      shift: false
+    };
+    $(this.canvas).on('keydown keyup', (function(_this) {
+      return function(event) {
+        var keyName;
+        keyName = Maze.keys[event.which];
+        if (keyName) {
+          _this.keyPressed[keyName] = event.type === 'keydown';
+          event.preventDefault();
+        }
+        return _this.keyPressed.shift = event.shiftKey;
+      };
+    })(this));
   }
 
   Maze.prototype.setMap = function(map) {
@@ -85,7 +99,26 @@ Maze = (function() {
   Update all the entities once.
    */
 
-  Maze.prototype.update = function(steps) {};
+  Maze.prototype.update = function(steps) {
+    if (this.keyPressed.up) {
+      this.camera.move(10);
+    } else if (this.keyPressed.down) {
+      this.camera.move(-10);
+    }
+    if (this.keyPressed.left) {
+      if (this.keyPressed.shift) {
+        return this.camera.strife(-10);
+      } else {
+        return this.camera.angle -= 1;
+      }
+    } else if (this.keyPressed.right) {
+      if (this.keyPressed.shift) {
+        return this.camera.strife(10);
+      } else {
+        return this.camera.angle += 1;
+      }
+    }
+  };
 
 
   /*
@@ -105,6 +138,21 @@ Maze = (function() {
     this.context.fillStyle = gradient;
     this.context.fillRect(0, this.canvas.height / 2, this.canvas.width, this.canvas.height);
     return this.camera.project(this.map, this.canvas, this.context);
+  };
+
+
+  /*
+  Constants for some keys we're interesting in
+   */
+
+  Maze.keys = {
+    32: "space",
+    37: "left",
+    38: "up",
+    39: "right",
+    40: "down",
+    80: "P",
+    83: "S"
   };
 
   return Maze;
