@@ -12,11 +12,12 @@ class Camera
       sliceHeight = map.wallHeight / distance * distanceFromScreen
       y = canvas.height / 2 - sliceHeight / 2
 
-      context.fillStyle = '#F0F'
+      context.clearRect x, y, 1, sliceHeight
+      context.fillStyle = '#C79926'
       context.fillRect x, y, 1, sliceHeight
 
       context.fillStyle = '#000'
-      context.globalAlpha = distance / @maxDistance
+      context.globalAlpha = distance / @maxDistance / 1.6
       context.fillRect x, y, 1, sliceHeight
 
       angle += angleIncrement

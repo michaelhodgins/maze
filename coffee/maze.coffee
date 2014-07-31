@@ -64,4 +64,18 @@ class Maze
   Draw each entity.
   ###
   draw: ->
+    # draw the sky and ground
+    gradient = @context.createLinearGradient 0, 0, 0, @canvas.height / 2
+    gradient.addColorStop 0, '#6698FF'
+    gradient.addColorStop 1, '#2554C7'
+    @context.fillStyle = gradient
+    @context.fillRect 0, 0, @canvas.width, @canvas.height / 2
+
+
+    gradient = @context.createLinearGradient 0, 0, 0, @canvas.height
+    gradient.addColorStop 0, '#254117'
+    gradient.addColorStop 1, '#4AA02C'
+    @context.fillStyle = gradient
+    @context.fillRect 0, @canvas.height / 2, @canvas.width, @canvas.height
+    # draw the map
     @camera.project @map, @canvas, @context

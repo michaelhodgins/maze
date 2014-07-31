@@ -20,10 +20,11 @@ Camera = (function() {
       distance = this.castRay(map, angle);
       sliceHeight = map.wallHeight / distance * distanceFromScreen;
       y = canvas.height / 2 - sliceHeight / 2;
-      context.fillStyle = '#F0F';
+      context.clearRect(x, y, 1, sliceHeight);
+      context.fillStyle = '#C79926';
       context.fillRect(x, y, 1, sliceHeight);
       context.fillStyle = '#000';
-      context.globalAlpha = distance / this.maxDistance;
+      context.globalAlpha = distance / this.maxDistance / 1.6;
       context.fillRect(x, y, 1, sliceHeight);
       _results.push(angle += angleIncrement);
     }

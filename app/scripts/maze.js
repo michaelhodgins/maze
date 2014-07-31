@@ -93,6 +93,17 @@ Maze = (function() {
    */
 
   Maze.prototype.draw = function() {
+    var gradient;
+    gradient = this.context.createLinearGradient(0, 0, 0, this.canvas.height / 2);
+    gradient.addColorStop(0, '#6698FF');
+    gradient.addColorStop(1, '#2554C7');
+    this.context.fillStyle = gradient;
+    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height / 2);
+    gradient = this.context.createLinearGradient(0, 0, 0, this.canvas.height);
+    gradient.addColorStop(0, '#254117');
+    gradient.addColorStop(1, '#4AA02C');
+    this.context.fillStyle = gradient;
+    this.context.fillRect(0, this.canvas.height / 2, this.canvas.width, this.canvas.height);
     return this.camera.project(this.map, this.canvas, this.context);
   };
 
