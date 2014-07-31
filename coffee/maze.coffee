@@ -21,8 +21,10 @@ class Maze
 
 
   setMap: (@map) ->
+    @camera?.map = @map
 
   setCamera: (@camera) ->
+    @camera.map = @map if @map
 
   ###
   Called to start the game loop
@@ -73,20 +75,20 @@ class Maze
   ###
   update: (steps) ->
     if @keyPressed.up
-      @camera.move 10
+      @camera.move 15
     else if @keyPressed.down
-      @camera.move -10
+      @camera.move -15
 
     if @keyPressed.left
       if @keyPressed.shift
-        @camera.strife -10
+        @camera.strife -15
       else
-        @camera.angle -= 1
+        @camera.angle -= 1.3
     else if @keyPressed.right
       if @keyPressed.shift
-        @camera.strife 10
+        @camera.strife 15
       else
-        @camera.angle += 1
+        @camera.angle += 1.3
 
   ###
   Draw each entity.
@@ -107,7 +109,7 @@ class Maze
     @context.fillRect 0, @canvas.height / 2, @canvas.width, @canvas.height
 
     # draw the map
-    @camera.project @map, @canvas, @context
+    @camera.project @canvas, @context
 
   ###
   Constants for some keys we're interesting in

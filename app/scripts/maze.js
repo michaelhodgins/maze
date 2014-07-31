@@ -27,11 +27,16 @@ Maze = (function() {
   }
 
   Maze.prototype.setMap = function(map) {
+    var _ref;
     this.map = map;
+    return (_ref = this.camera) != null ? _ref.map = this.map : void 0;
   };
 
   Maze.prototype.setCamera = function(camera) {
     this.camera = camera;
+    if (this.map) {
+      return this.camera.map = this.map;
+    }
   };
 
 
@@ -101,21 +106,21 @@ Maze = (function() {
 
   Maze.prototype.update = function(steps) {
     if (this.keyPressed.up) {
-      this.camera.move(10);
+      this.camera.move(15);
     } else if (this.keyPressed.down) {
-      this.camera.move(-10);
+      this.camera.move(-15);
     }
     if (this.keyPressed.left) {
       if (this.keyPressed.shift) {
-        return this.camera.strife(-10);
+        return this.camera.strife(-15);
       } else {
-        return this.camera.angle -= 1;
+        return this.camera.angle -= 1.3;
       }
     } else if (this.keyPressed.right) {
       if (this.keyPressed.shift) {
-        return this.camera.strife(10);
+        return this.camera.strife(15);
       } else {
-        return this.camera.angle += 1;
+        return this.camera.angle += 1.3;
       }
     }
   };
@@ -137,7 +142,7 @@ Maze = (function() {
     gradient.addColorStop(1, '#4AA02C');
     this.context.fillStyle = gradient;
     this.context.fillRect(0, this.canvas.height / 2, this.canvas.width, this.canvas.height);
-    return this.camera.project(this.map, this.canvas, this.context);
+    return this.camera.project(this.canvas, this.context);
   };
 
 
